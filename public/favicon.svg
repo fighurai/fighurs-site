@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="FIGHURS">
+  <rect width="64" height="64" fill="#F2FF3A"/>
+  <circle cx="23" cy="25" r="4.5" fill="#0B0B0B"/>
+  <circle cx="41" cy="25" r="4.5" fill="#0B0B0B"/>
+  <path d="M17 38c6 11 24 11 30 0" fill="none" stroke="#0B0B0B" stroke-width="6" stroke-linecap="round"/>
+</svg>

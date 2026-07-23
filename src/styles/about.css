@@ -1,0 +1,255 @@
+/* Full-bleed about reel — fills viewport under nav (not 9:16 phone) */
+.about--reel {
+  position: relative;
+  width: 100%;
+  height: calc(100dvh - var(--nav-h));
+  min-height: calc(100dvh - var(--nav-h));
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--blue);
+}
+
+.about--reel.page {
+  padding-top: 0;
+}
+
+.about__phone {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+}
+
+.about__stage {
+  position: absolute;
+  inset: 0;
+}
+
+.about__frame {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  place-items: center;
+  text-align: center;
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+/* Hard cut punch — ~4–6 frames at 30fps */
+.about__frame--slam,
+.about__frame--build,
+.about__frame--media {
+  animation: about-punch 0.14s cubic-bezier(0.18, 0.95, 0.22, 1);
+}
+
+@keyframes about-punch {
+  0% {
+    opacity: 0.2;
+    transform: scale(1.12);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.about__frame--flash {
+  animation: about-flash 0.1s linear;
+}
+
+@keyframes about-flash {
+  from {
+    filter: brightness(1.55);
+  }
+  to {
+    filter: brightness(1);
+  }
+}
+
+.about__slam {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(4rem, 12vw, 8.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.055em;
+  text-transform: lowercase;
+  max-width: 12ch;
+  animation: about-slam-in 0.16s cubic-bezier(0.12, 1.15, 0.28, 1);
+}
+
+@keyframes about-slam-in {
+  from {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.about__slam em,
+.about__build-word em {
+  font-style: italic;
+  font-weight: 800;
+}
+
+.about__frame--build {
+  gap: 0.15rem;
+  align-content: center;
+}
+
+.about__build-word {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 750;
+  font-size: clamp(2.4rem, 6.5vw, 4.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  text-transform: lowercase;
+  max-width: 16ch;
+}
+
+.about__build-word.is-new {
+  animation: about-word-pop 0.15s cubic-bezier(0.12, 1.2, 0.28, 1);
+}
+
+@keyframes about-word-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(1.18);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.about__frame--media {
+  padding: 0;
+}
+
+.about__cut {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  animation: about-photo-punch 0.18s ease-out;
+}
+
+.about__cut--video {
+  background: #000;
+}
+
+@keyframes about-photo-punch {
+  from {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.about__caption {
+  position: absolute;
+  left: 50%;
+  bottom: 16%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0.32rem 0.6rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.35rem, 5.8vw, 2.1rem);
+  letter-spacing: -0.04em;
+  text-transform: lowercase;
+  background: var(--accent);
+  color: var(--ink);
+  animation: about-word-pop 0.14s cubic-bezier(0.12, 1.2, 0.28, 1);
+}
+
+.about__frame.is-yellow {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.about__frame.is-magenta {
+  background: var(--bg-magenta);
+  color: #fff;
+}
+
+.about__frame.is-blue {
+  background: var(--blue);
+  color: #fff;
+}
+
+.about__frame.is-accent {
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.about__frame.is-white {
+  background: #fff;
+  color: var(--ink);
+}
+
+.about__frame.is-black {
+  background: #0a0a0a;
+  color: #fff;
+}
+
+.about__chrome {
+  position: absolute;
+  left: clamp(1rem, 3vw, 2rem);
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 2.5vw, 1.5rem);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  pointer-events: none;
+}
+
+.about__chrome-label {
+  margin: 0;
+  padding: 0.45rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: lowercase;
+  color: var(--ink);
+  background: #fff;
+}
+
+.about__chrome-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  pointer-events: auto;
+}
+
+.about__chip {
+  display: inline-flex;
+  padding: 0.45rem 0.75rem;
+  background: var(--bg-magenta);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: lowercase;
+}
+
+.about__chip--ghost {
+  background: transparent;
+  color: #fff;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+body:has(.about--reel) .site-footer {
+  display: none;
+}
