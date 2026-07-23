@@ -28,3 +28,4 @@ OPEN-THIS.txt
 .tmp-ref
 .kill-stale.log
 .vite-*.log
+PUSH-TO-GITHUB.sh

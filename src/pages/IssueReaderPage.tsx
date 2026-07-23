@@ -10,9 +10,12 @@ pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs'
 
 type FlipApi = {
   pageFlip: () => {
-    flipNext: () => void
-    flipPrev: () => void
-  }
+    flipNext: (corner?: string) => void
+    flipPrev: (corner?: string) => void
+    getCurrentPageIndex: () => number
+    turnToPage: (page: number) => void
+    getPageCount: () => number
+  } | null
 }
 
 export function IssueReaderPage() {
@@ -26,6 +29,20 @@ export function IssueReaderPage() {
   const [current, setCurrent] = useState(0)
   const bookRef = useRef<FlipApi | null>(null)
   const loadId = useRef(0)
+
+  const flipBy = (dir: 'prev' | 'next') => {
+    const flip = bookRef.current?.pageFlip?.()
+    if (!flip) return
+    try {
+      if (dir === 'next') flip.flipNext('top')
+      else flip.flipPrev('top')
+    } catch {
+      const i = flip.getCurrentPageIndex?.() ?? current
+      const total = flip.getPageCount?.() ?? pages.length
+      const target = dir === 'next' ? Math.min(i + 1, total - 1) : Math.max(i - 1, 0)
+      flip.turnToPage?.(target)
+    }
+  }
 
   const bookSize = useMemo(() => {
     const w = Math.min(920, typeof window !== 'undefined' ? window.innerWidth * 0.96 : 920)
@@ -116,6 +133,21 @@ export function IssueReaderPage() {
     }
   }, [issue])
 
+  useEffect(() => {
+    if (pages.length === 0) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+        e.preventDefault()
+        flipBy('next')
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault()
+        flipBy('prev')
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [pages.length, current])
+
   if (!issue) {
     return (
       <main className="reader page">
@@ -190,6 +222,7 @@ export function IssueReaderPage() {
 
         {canFlip && (
           <HTMLFlipBook
+            key={issue.slug}
             ref={bookRef as never}
             className="reader__book"
             width={Math.floor(bookSize.width / 2)}
@@ -206,6 +239,9 @@ export function IssueReaderPage() {
             usePortrait={typeof window !== 'undefined' ? window.innerWidth < 800 : false}
             startPage={0}
             maxShadowOpacity={0.45}
+            useMouseEvents
+            clickEventForward={false}
+            disableFlipByClick={false}
             onFlip={(e: { data: number }) => setCurrent(e.data)}
           >
             {pages.map((src, idx) => (
@@ -221,8 +257,8 @@ export function IssueReaderPage() {
         <button
           className="btn"
           type="button"
-          onClick={() => bookRef.current?.pageFlip().flipPrev()}
-          disabled={!canFlip}
+          onClick={() => flipBy('prev')}
+          disabled={!canFlip || current <= 0}
         >
           Prev
         </button>
@@ -230,14 +266,16 @@ export function IssueReaderPage() {
         <button
           className="btn"
           type="button"
-          onClick={() => bookRef.current?.pageFlip().flipNext()}
-          disabled={!canFlip}
+          onClick={() => flipBy('next')}
+          disabled={!canFlip || current >= pages.length - 1}
         >
           Next
         </button>
       </div>
 
-      <p className="reader__blurb">{issue.blurb}</p>
+      <p className="reader__blurb">
+        <span>{issue.blurb}</span>
+      </p>
     </main>
   )
 }

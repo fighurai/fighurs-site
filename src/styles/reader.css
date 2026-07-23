@@ -158,8 +158,16 @@
 .reader__blurb {
   width: min(720px, 100%);
   margin: 1.5rem auto 0;
-  color: rgba(247, 247, 245, 0.75);
-  font-size: 0.98rem;
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.reader__blurb span {
+  color: var(--blue);
+  background: var(--accent);
+  padding: 0.12em 0.28em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 @media (max-width: 700px) {

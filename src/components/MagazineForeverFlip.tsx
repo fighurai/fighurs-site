@@ -172,9 +172,15 @@ export function MagazineForeverFlip({
         />
       </div>
       <div className="mag-flip__meta">
+        <button type="button" className="mag-flip__toggle" onClick={prev}>
+          Prev
+        </button>
         <span>
           {index + 1} / {ok.length}
         </span>
+        <button type="button" className="mag-flip__toggle" onClick={next}>
+          Next
+        </button>
         <button type="button" className="mag-flip__toggle" onClick={() => setPaused((p) => !p)}>
           {paused ? 'Resume auto-flip' : 'Pause'}
         </button>

@@ -7,7 +7,7 @@ export function SiteFooter() {
       <div className="site-footer__inner">
         <div className="site-footer__brand">
           <Logo label />
-          <p>Figures. Fashion. Culture. Print.</p>
+          <p>there&apos;s just so much to smile about.</p>
         </div>
 
         <div className="site-footer__cols">
