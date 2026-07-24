@@ -121,7 +121,14 @@ export function MagazinePage() {
 
       const tl = gsap.timeline({
         defaults: { ease: 'power3.out' },
-        onComplete: enableParallax,
+        onComplete: () => {
+          enableParallax()
+          if (mobile) {
+            // Drop GSAP transforms so native horizontal scroll feels native
+            gsap.set(items, { clearProps: 'transform' })
+            stageEl.scrollLeft = 0
+          }
+        },
       })
 
       // 1) Ribbon streams in along the curve
