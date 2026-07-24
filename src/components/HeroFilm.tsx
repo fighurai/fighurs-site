@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { MagazineForeverFlip } from './MagazineForeverFlip'
 import { montagePages, youtubeClips } from '../data/heroManifest'
 import '../styles/heroFilm.css'
@@ -13,6 +13,7 @@ export function HeroFilm() {
   const [cut, setCut] = useState(0)
   const [ytIndex, setYtIndex] = useState(0)
   const [showYt, setShowYt] = useState(false)
+  const bgRef = useRef<HTMLVideoElement>(null)
 
   const cuts = useMemo(() => {
     const pool = [...montagePages]
@@ -53,6 +54,30 @@ export function HeroFilm() {
     }
   }, [phase, cuts.length])
 
+  useEffect(() => {
+    if (phase !== 'magazine') return
+    const el = bgRef.current
+    if (!el) return
+
+    el.muted = true
+    el.defaultMuted = true
+    el.playsInline = true
+    el.setAttribute('muted', '')
+    el.setAttribute('playsinline', '')
+
+    const tryPlay = () => {
+      void el.play().catch(() => {})
+    }
+
+    tryPlay()
+    el.addEventListener('canplay', tryPlay)
+    el.addEventListener('loadeddata', tryPlay)
+    return () => {
+      el.removeEventListener('canplay', tryPlay)
+      el.removeEventListener('loadeddata', tryPlay)
+    }
+  }, [phase])
+
   return (
     <section className={`hero-film hero-film--${phase}`}>
       {phase === 'film' && (
@@ -86,9 +111,22 @@ export function HeroFilm() {
       )}
 
       {phase === 'magazine' && (
-        <div className="hero-film__magazine">
-          <MagazineForeverFlip autoPlay speedMs={450} />
-        </div>
+        <>
+          <video
+            ref={bgRef}
+            className="hero-film__magazine-bg"
+            src="/hero/flipbook-bg.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-hidden
+          />
+          <div className="hero-film__magazine">
+            <MagazineForeverFlip autoPlay speedMs={450} />
+          </div>
+        </>
       )}
     </section>
   )

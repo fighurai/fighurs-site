@@ -6,6 +6,10 @@
   overflow: hidden;
 }
 
+.hero-film--magazine {
+  background: #0a0a0a;
+}
+
 .hero-film__stage {
   position: absolute;
   inset: 0;
@@ -100,13 +104,30 @@
   background: rgba(0, 0, 0, 0.35);
 }
 
+.hero-film__magazine-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
 .hero-film__magazine {
   position: absolute;
   inset: 0;
+  z-index: 1;
   display: grid;
   place-items: center;
   padding: 0.5rem 0;
   animation: hero-mag-in 0.7s var(--ease);
+  pointer-events: none;
+}
+
+.hero-film__magazine .mag-flip {
+  pointer-events: auto;
 }
 
 @keyframes hero-mag-in {
