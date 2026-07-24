@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import HTMLFlipBook from 'react-pageflip'
 import * as pdfjs from 'pdfjs-dist'
@@ -29,25 +29,66 @@ export function IssueReaderPage() {
   const [current, setCurrent] = useState(0)
   const bookRef = useRef<FlipApi | null>(null)
   const loadId = useRef(0)
+  const lastFlipAt = useRef(0)
 
   const flipBy = (dir: 'prev' | 'next') => {
+    const now = performance.now()
+    if (now - lastFlipAt.current < 280) return
+    lastFlipAt.current = now
+
     const flip = bookRef.current?.pageFlip?.()
     if (!flip) return
+    const i = flip.getCurrentPageIndex?.() ?? current
+    const total = flip.getPageCount?.() ?? pages.length
     try {
-      if (dir === 'next') flip.flipNext('top')
-      else flip.flipPrev('top')
+      if (dir === 'next') {
+        if (i >= total - 1) return
+        flip.flipNext('bottom')
+      } else {
+        if (i <= 0) return
+        flip.flipPrev('bottom')
+      }
     } catch {
-      const i = flip.getCurrentPageIndex?.() ?? current
-      const total = flip.getPageCount?.() ?? pages.length
       const target = dir === 'next' ? Math.min(i + 1, total - 1) : Math.max(i - 1, 0)
       flip.turnToPage?.(target)
+      setCurrent(target)
     }
   }
 
-  const bookSize = useMemo(() => {
-    const w = Math.min(920, typeof window !== 'undefined' ? window.innerWidth * 0.96 : 920)
-    const h = Math.min(640, typeof window !== 'undefined' ? window.innerHeight * 0.72 : 640)
-    return { width: Math.floor(w), height: Math.floor(h) }
+  const [bookSize, setBookSize] = useState(() => {
+    if (typeof window === 'undefined') {
+      return { width: 920, height: 640, minWidth: 280, maxWidth: 560 }
+    }
+    const vw = window.innerWidth
+    const vh = window.innerHeight
+    const totalW = Math.min(920, vw * 0.96)
+    const pageW = totalW / 2
+    const height = Math.min(vh * (vw < 800 ? 0.52 : 0.72), pageW * 1.4)
+    return {
+      width: Math.floor(totalW),
+      height: Math.floor(Math.max(280, height)),
+      // Keep minWidth under half the viewport so landscape spread stays enabled on phones
+      minWidth: vw < 800 ? Math.max(110, Math.floor(vw * 0.36)) : 280,
+      maxWidth: vw < 800 ? Math.floor(vw * 0.48) : 560,
+    }
+  })
+
+  useEffect(() => {
+    const onResize = () => {
+      const vw = window.innerWidth
+      const vh = window.innerHeight
+      const totalW = Math.min(920, vw * 0.96)
+      const pageW = totalW / 2
+      const height = Math.min(vh * (vw < 800 ? 0.52 : 0.72), pageW * 1.4)
+      setBookSize({
+        width: Math.floor(totalW),
+        height: Math.floor(Math.max(280, height)),
+        minWidth: vw < 800 ? Math.max(110, Math.floor(vw * 0.36)) : 280,
+        maxWidth: vw < 800 ? Math.floor(vw * 0.48) : 560,
+      })
+    }
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
   }, [])
 
   useEffect(() => {
@@ -222,26 +263,27 @@ export function IssueReaderPage() {
 
         {canFlip && (
           <HTMLFlipBook
-            key={issue.slug}
+            key={`${issue.slug}-${bookSize.width}-${bookSize.minWidth}`}
             ref={bookRef as never}
             className="reader__book"
             width={Math.floor(bookSize.width / 2)}
             height={bookSize.height}
             size="stretch"
-            minWidth={280}
-            maxWidth={560}
-            minHeight={360}
-            maxHeight={720}
+            minWidth={bookSize.minWidth}
+            maxWidth={bookSize.maxWidth}
+            minHeight={Math.floor(bookSize.height * 0.85)}
+            maxHeight={bookSize.height}
             showCover
-            mobileScrollSupport
+            mobileScrollSupport={false}
             drawShadow
             flippingTime={900}
-            usePortrait={typeof window !== 'undefined' ? window.innerWidth < 800 : false}
+            usePortrait={false}
             startPage={0}
             maxShadowOpacity={0.45}
             useMouseEvents
             clickEventForward={false}
             disableFlipByClick={false}
+            swipeDistance={30}
             onFlip={(e: { data: number }) => setCurrent(e.data)}
           >
             {pages.map((src, idx) => (

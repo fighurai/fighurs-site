@@ -211,15 +211,28 @@
 }
 
 @media (max-width: 900px) {
+  .works {
+    padding: calc(var(--nav-h) + 1rem) 0.85rem 3rem;
+    overflow-x: clip;
+  }
+
+  /* Keep trail for entrance; GSAP fades it out */
   .works__trail {
-    display: none;
+    display: block;
+  }
+
+  .works__top {
+    flex-direction: column;
+    align-items: start;
+    gap: 0.65rem;
+    margin-bottom: 1.5rem;
   }
 
   .works__stage {
     min-height: auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
+    gap: 0.65rem;
     padding-bottom: 0;
   }
 
@@ -238,9 +251,25 @@
     aspect-ratio: 16 / 10;
   }
 
+  .works__item-label {
+    left: 0.45rem;
+    right: 0.45rem;
+    bottom: 0.45rem;
+    font-size: 0.58rem;
+  }
+
+  .works__item-label strong {
+    font-size: 0.78rem;
+  }
+
+  .works__rail {
+    margin-top: 2.5rem;
+  }
+
   .works__rail-row {
     grid-template-columns: 3rem 1fr;
     grid-template-rows: auto auto;
+    gap: 0.35rem 0.75rem;
   }
 
   .works__rail-row span:nth-child(3),

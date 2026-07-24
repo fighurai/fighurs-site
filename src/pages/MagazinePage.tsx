@@ -60,7 +60,7 @@ export function MagazinePage() {
         })
       }
 
-      if (reduce || mobile) {
+      if (reduce) {
         gsap.from(items, {
           y: 48,
           opacity: 0,
@@ -69,21 +69,23 @@ export function MagazinePage() {
           ease: 'power3.out',
         })
         gsap.set(trailEl, { autoAlpha: 0 })
-        enableParallax()
         return
       }
 
       const vw = window.innerWidth
       const vh = window.innerHeight
+      // On mobile, keep the S-curve entrance but use a shorter viewport band
+      const curveScaleY = mobile ? 0.55 : 1
+      const curveOffsetY = mobile ? 0.18 : 0
 
       // Place trail cards along the S-curve
       cards.forEach((card, i) => {
         const t = i / Math.max(1, cards.length - 1)
         const { x, y } = curvePoint(t)
-        const w = gsap.utils.interpolate(72, 110, Math.sin(t * Math.PI))
+        const w = gsap.utils.interpolate(mobile ? 48 : 72, mobile ? 78 : 110, Math.sin(t * Math.PI))
         gsap.set(card, {
           left: x * vw - w / 2,
-          top: y * vh - (w * 1.3) / 2,
+          top: (y * curveScaleY + curveOffsetY) * vh - (w * 1.3) / 2,
           width: w,
           height: w * 1.3,
           rotation: gsap.utils.interpolate(-8, 8, Math.sin(t * Math.PI * 2)),
@@ -97,7 +99,7 @@ export function MagazinePage() {
         const t = i / Math.max(1, items.length - 1)
         const { x, y } = curvePoint(0.12 + t * 0.76)
         const startX = x * vw
-        const startY = y * vh
+        const startY = (y * curveScaleY + curveOffsetY) * vh
         const cx = rect.left + rect.width / 2
         const cy = rect.top + rect.height / 2
         return {
@@ -105,7 +107,7 @@ export function MagazinePage() {
           x: startX - cx,
           y: startY - cy,
           rotation: gsap.utils.interpolate(-14, 14, Math.sin(t * Math.PI * 2)),
-          scale: 0.55,
+          scale: mobile ? 0.7 : 0.55,
         }
       })
 
@@ -127,12 +129,12 @@ export function MagazinePage() {
         cards,
         {
           x: (i: number) => (i < cards.length / 2 ? -vw * 0.35 : vw * 0.2),
-          y: (i: number) => Math.sin(i) * 80,
+          y: (i: number) => Math.sin(i) * (mobile ? 40 : 80),
           opacity: 0,
           scale: 0.7,
-          duration: 1.05,
+          duration: mobile ? 0.85 : 1.05,
           stagger: {
-            each: 0.018,
+            each: mobile ? 0.012 : 0.018,
             from: 'start',
           },
           ease: 'power2.out',
@@ -182,7 +184,7 @@ export function MagazinePage() {
           y: 0,
           rotation: 0,
           scale: 1,
-          duration: 1.15,
+          duration: mobile ? 0.95 : 1.15,
           stagger: {
             each: 0.07,
             from: 'center',

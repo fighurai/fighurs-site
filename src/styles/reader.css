@@ -145,6 +145,17 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  position: relative;
+  z-index: 30;
+  touch-action: manipulation;
+}
+
+.reader__controls .btn {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 2.75rem;
+  position: relative;
+  z-index: 31;
 }
 
 .reader__controls span {
@@ -170,7 +181,12 @@
   -webkit-box-decoration-break: clone;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
+  .reader {
+    padding: calc(var(--nav-h) + 0.75rem) 0.75rem 1.5rem;
+    gap: 0.75rem;
+  }
+
   .reader__head {
     grid-template-columns: 1fr;
   }
@@ -179,7 +195,19 @@
     justify-content: start;
   }
 
+  .reader__stage {
+    width: 100%;
+    min-height: 52vh;
+    overflow: hidden;
+  }
+
   .reader__book {
-    height: 62vh;
+    width: 100%;
+    height: min(52vh, 420px);
+  }
+
+  .reader__controls .btn {
+    min-width: 4.5rem;
+    padding: 0.75rem 1rem;
   }
 }
