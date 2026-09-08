@@ -1,5 +1,7 @@
 export type Issue = {
   slug: string
+  /** Old WooCommerce product path slug for redirects */
+  productSlug: string
   number: string
   title: string
   subtitle: string
@@ -12,11 +14,19 @@ export type Issue = {
   pdf: string
   blurb: string
   accent: string
+  /** Stripe Payment Link (or other checkout URL). Empty = buy unavailable. */
+  buyUrl: string
 }
 
+/**
+ * Paste Stripe Payment Links into each issue's `buyUrl` when ready:
+ * Stripe Dashboard → Payment Links → create one link per issue → copy URL here.
+ * Until then, Buy print shows “Coming soon”.
+ */
 export const issues: Issue[] = [
   {
     slug: 'juhm',
+    productSlug: 'issue-007-the-minuscule',
     number: '007',
     title: 'THE MINUSCULE IS IN',
     subtitle: 'JUHM • Creator Feature',
@@ -27,11 +37,13 @@ export const issues: Issue[] = [
     collage: ['/covers/collage-1.jpg', '/covers/juhm-3.jpg'],
     pdf: '/issues/juhm.pdf',
     accent: '#F2FF3A',
+    buyUrl: '',
     blurb:
       'Juhm is a social media creator redefining how personality translates online — where humor, fashion, and cultural commentary collapse into something distinctly his own. THE MINUSCULE IS IN explores how nuance becomes influence.',
   },
   {
     slug: 'iconikki',
+    productSlug: 'issue-006-the-icon',
     number: '006',
     title: 'THE ICON',
     subtitle: 'ICONIKKI • Creator Feature',
@@ -42,11 +54,13 @@ export const issues: Issue[] = [
     collage: ['/covers/collage-3.jpg', '/covers/iconikki-2.jpg'],
     pdf: '/issues/iconikki.pdf',
     accent: '#FF4D9A',
+    buyUrl: '',
     blurb:
       'ICONIKKI is a fashion-forward creator and stylist whose TikTok presence feels like a live moodboard — quick-fit moments, bold styling choices, and the confidence that makes everyday looks feel editorial.',
   },
   {
     slug: 'masue-kamara',
+    productSlug: 'issue-005-masue-kamara',
     number: '005',
     title: 'THE ARTIST',
     subtitle: 'Masue Kamara • Artist Feature',
@@ -57,11 +71,13 @@ export const issues: Issue[] = [
     collage: ['/covers/collage-4.jpg', '/covers/masue-kamara-2.jpg'],
     pdf: '/issues/masue-kamara.pdf',
     accent: '#E8C547',
+    buyUrl: '',
     blurb:
       'Masue Kamara is a multidisciplinary artist whose work explores identity, restraint, and emotional presence. A study in self-definition, vision, and creating on one’s own terms.',
   },
   {
     slug: 'nyfw-ss26',
+    productSlug: 'issue-004-nyfw',
     number: '004',
     title: 'NYFW SS26',
     subtitle: 'Behind the Runway • Special Edition',
@@ -72,11 +88,13 @@ export const issues: Issue[] = [
     collage: ['/covers/nyfw-late0.jpg', '/covers/nyfw-late4.jpg'],
     pdf: '/issues/nyfw-ss26.pdf',
     accent: '#FFFFFF',
+    buyUrl: '',
     blurb:
       'The NYFW SS26 Issue captures fashion week from a perspective rarely seen — photographers, artists, stylists, and creatives who bring each show to life. Backstage chaos to artistic intimacy.',
   },
   {
     slug: 'isaiah-collins',
+    productSlug: 'issue-003-isaiah-collins',
     number: '003',
     title: 'THE COMEDY KING',
     subtitle: 'Isaiah Collins • Featured Issue',
@@ -88,11 +106,13 @@ export const issues: Issue[] = [
     collage: ['/covers/isaiah-bubba-1.jpg', '/covers/isaiah-bubba-5.jpg'],
     pdf: '/issues/isaiah-collins.pdf',
     accent: '#35E0FF',
+    buyUrl: '',
     blurb:
       'Philly-born digital comedian @bubbacollins — whose honesty hits harder than any punchline. A masterclass in owning your narrative without losing your soul. Long live The Comedy King.',
   },
   {
     slug: 'eddie-cole',
+    productSlug: 'issue-002-eddie-cole',
     number: '002',
     title: 'THE COLE METHOD',
     subtitle: 'Eddie Cole • Featured Issue',
@@ -104,11 +124,13 @@ export const issues: Issue[] = [
     collage: ['/covers/collage-2.jpg', '/covers/eddie-cole-3.jpg'],
     pdf: '/issues/eddie-cole.pdf',
     accent: '#E10600',
+    buyUrl: '',
     blurb:
       'Eddie Cole — a self-taught creative force from Minneapolis whose work blends fashion, photography, and storytelling. From styling out of necessity to building a community-centered studio.',
   },
   {
     slug: 'makenna',
+    productSlug: 'issue-001-makenna-onyambu',
     number: '001',
     title: 'THE MULTIFACETED MODEL',
     subtitle: 'Makenna Onyambu • Featured Issue',
@@ -120,6 +142,7 @@ export const issues: Issue[] = [
     collage: ['/covers/collage-5.jpg', '/covers/makenna-3.jpg'],
     pdf: '/issues/makenna.pdf',
     accent: '#FF2D8A',
+    buyUrl: '',
     blurb:
       'From the runway to real life, Makenna Onyambu is redefining confidence, creativity, and the future of fashion. A model, a visionary, and a force — her journey is just beginning.',
   },
@@ -127,4 +150,16 @@ export const issues: Issue[] = [
 
 export function getIssue(slug: string) {
   return issues.find((i) => i.slug === slug)
+}
+
+export function getIssueByProductSlug(productSlug: string) {
+  return issues.find((i) => i.productSlug === productSlug)
+}
+
+export function getIssueBuyUrl(slug: string) {
+  return getIssue(slug)?.buyUrl ?? ''
+}
+
+export function canBuyIssue(issue: Issue) {
+  return Boolean(issue.buyUrl?.trim())
 }

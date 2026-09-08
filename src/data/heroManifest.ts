@@ -451,6 +451,11 @@ export const heroManifest: HeroIssuePages[] = [
 /** Full ordered stack across every issue */
 export const allHeroPages: string[] = heroManifest.flatMap((i) => i.pages)
 
+/** Homepage autoplay flipbook — Eddie Cole pages excluded */
+export const homeFlipPages: string[] = heroManifest
+  .filter((i) => i.slug !== 'eddie-cole')
+  .flatMap((i) => i.pages)
+
 export const montagePages: string[] = [
   ...heroManifest.map((i) => i.pages[0]).filter(Boolean),
   ...allHeroPages.filter((_, idx) => idx % 5 === 0),

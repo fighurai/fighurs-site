@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
+import { BuyPrintButton } from '../components/BuyPrintButton'
+import { Logo } from '../components/Logo'
 import { issues } from '../data/issues'
 import '../styles/shop.css'
 
@@ -74,41 +76,46 @@ export function ShopPage() {
     <main className="shop page">
       <ShopCursorDots />
 
-      <div className="shop__inner">
-        <div className="shop__intro">
-          <p className="eyebrow">Print editions</p>
-          <p>
-            Purchase a physical copy of every issue, every story, and every muse that shaped the
-            movement.
-          </p>
+      <header className="shop__hero">
+        <div className="shop__hero-bg" aria-hidden />
+        <div className="shop__hero-inner">
+          <Logo label className="shop__brand" />
+          <p className="shop__hero-line">Print editions. Physical copies of every issue.</p>
+          <a className="btn btn--fill" href="#issues">
+            Shop issues
+          </a>
         </div>
+      </header>
 
-        <div className="shop__grid">
-          {issues.map((issue) => (
-            <article className="shop__card" key={issue.slug}>
-              <Link to={`/magazine/${issue.slug}`} className="shop__cover">
+      <div className="shop__inner" id="issues">
+        <div className="shop__list">
+          {issues.map((issue, idx) => (
+            <article
+              className={`shop__row ${idx % 2 === 1 ? 'shop__row--alt' : ''}`}
+              key={issue.slug}
+              style={{ ['--issue-accent' as string]: issue.accent }}
+            >
+              <Link to={`/shop/${issue.slug}`} className="shop__cover">
                 <img src={issue.cover} alt="" />
               </Link>
               <div className="shop__meta">
                 <p className="eyebrow">
                   Issue {issue.number} · {issue.year}
                 </p>
-                <h2>{issue.title}</h2>
-                <p>{issue.subject}</p>
-                <div className="shop__row">
+                <h2>
+                  <Link to={`/shop/${issue.slug}`}>{issue.title}</Link>
+                </h2>
+                <p className="shop__subject">{issue.subject}</p>
+                <div className="shop__row-actions">
                   <strong>{issue.price}</strong>
                   <div className="shop__actions">
                     <Link className="btn" to={`/magazine/${issue.slug}`}>
                       Flip digital
                     </Link>
-                    <a
-                      className="btn btn--fill"
-                      href="https://fighurs.com/shop/"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Buy print
-                    </a>
+                    <BuyPrintButton issue={issue} />
+                    <Link className="btn" to={`/shop/${issue.slug}`}>
+                      Details
+                    </Link>
                   </div>
                 </div>
               </div>

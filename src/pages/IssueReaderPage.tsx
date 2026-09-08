@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import HTMLFlipBook from 'react-pageflip'
 import * as pdfjs from 'pdfjs-dist'
 import { getIssue } from '../data/issues'
+import { BuyPrintButton } from '../components/BuyPrintButton'
 import '../styles/reader.css'
 
 // pdfjs 4.x — avoids Map.getOrInsertComputed (broken in pdfjs 6 on many browsers)
@@ -225,10 +226,14 @@ export function IssueReaderPage() {
           <Link className="btn" to="/magazine">
             Archive
           </Link>
+          <Link className="btn" to={`/shop/${issue.slug}`}>
+            Shop
+          </Link>
+          <BuyPrintButton issue={issue} />
           <a className="btn" href={issue.pdf} target="_blank" rel="noreferrer">
             Open PDF
           </a>
-          <a className="btn btn--fill" href={issue.pdf} download>
+          <a className="btn" href={issue.pdf} download>
             Download
           </a>
         </div>

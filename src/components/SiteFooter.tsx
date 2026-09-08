@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Logo } from './Logo'
 import { social } from './SocialLinks'
 
@@ -22,9 +23,7 @@ export function SiteFooter() {
           </div>
           <div>
             <p className="eyebrow">More</p>
-            <a href="https://fighurs.com/shop/" target="_blank" rel="noreferrer">
-              Buy print
-            </a>
+            <Link to="/shop">Buy print</Link>
           </div>
         </div>
       </div>

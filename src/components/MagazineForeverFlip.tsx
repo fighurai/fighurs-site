@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { allHeroPages } from '../data/heroManifest'
+import { homeFlipPages } from '../data/heroManifest'
 import '../styles/magazineFlip.css'
 
 type Props = {
@@ -29,7 +29,7 @@ export function MagazineForeverFlip({
   className = '',
   onUserControl,
 }: Props) {
-  const pages = useMemo(() => allHeroPages, [])
+  const pages = useMemo(() => homeFlipPages, [])
   const [index, setIndex] = useState(0)
   const [flipping, setFlipping] = useState(false)
   const [paused, setPaused] = useState(!autoPlay)

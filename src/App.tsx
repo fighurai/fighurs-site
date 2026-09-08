@@ -7,6 +7,8 @@ import { SmoothScroll } from './components/SmoothScroll'
 import { HomePage } from './pages/HomePage'
 import { MagazinePage } from './pages/MagazinePage'
 import { ShopPage } from './pages/ShopPage'
+import { ShopProductPage } from './pages/ShopProductPage'
+import { ProductRedirect } from './pages/ProductRedirect'
 import { AboutPage } from './pages/AboutPage'
 import { InterviewPage } from './pages/InterviewPage'
 
@@ -43,6 +45,8 @@ export default function App() {
               }
             />
             <Route path="/shop" element={<ShopPage />} />
+            <Route path="/shop/:slug" element={<ShopProductPage />} />
+            <Route path="/product/:wpSlug" element={<ProductRedirect />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
