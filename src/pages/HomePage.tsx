@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { HeroFilm } from '../components/HeroFilm'
-import { HeroRsvp } from '../components/HeroRsvp'
 import { issues } from '../data/issues'
 import '../styles/home.css'
 
@@ -8,12 +7,8 @@ export function HomePage() {
   const loop = [...issues, ...issues]
 
   return (
-    <main className="home page home--film home--rsvp">
-      <HeroRsvp />
-
-      <div id="the-magazine">
-        <HeroFilm />
-      </div>
+    <main className="home page home--film">
+      <HeroFilm />
 
       <section className="home__figures home__figures--after-film">
         <div className="home__figures-head">

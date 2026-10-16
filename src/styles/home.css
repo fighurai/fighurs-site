@@ -14,19 +14,6 @@
   margin-top: var(--nav-h);
 }
 
-/* RSVP takeover owns the top of the page, so it takes the nav offset instead. */
-.home--rsvp .hero-rsvp {
-  margin-top: var(--nav-h);
-}
-
-.home--rsvp .hero-film {
-  margin-top: 0;
-}
-
-.home--rsvp #the-magazine {
-  scroll-margin-top: var(--nav-h);
-}
-
 .home__figures--after-film {
   padding-top: 8vh;
   border-top: 1px solid var(--line);
