@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FIGHURS — social handbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --lime: #e8ff4a;
+      --lime-soft: #d9f52e;
+      --neon: #fff200;
+      --paper: #fffde8;
+      --ink: #0b0b0b;
+      --muted: #2a2a2a;
+      --magenta: #e2007c;
+      --cobalt: #2546ff;
+      --cyan: #35e0ff;
+      --orange: #ff6a3d;
+      --crimson: #e10600;
+      --gold: #e8c547;
+      --violet: #8b5cff;
+      --on-dark: #f7f7f5;
+      --line: rgba(11, 11, 11, 0.16);
+      --display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --mono: "Space Mono", ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--lime);
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 17px;
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+    ::selection { background: var(--neon); }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin: 0 0 0.6rem;
+    }
+    h1, h2, h3 { font-weight: 800; letter-spacing: -0.045em; line-height: 0.92; text-transform: uppercase; margin: 0; }
+    h1 { font-size: clamp(3.4rem, 10vw, 7.4rem); }
+    h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); margin-bottom: 0.8rem; }
+    h3 { font-size: 1.35rem; letter-spacing: -0.03em; text-transform: none; line-height: 1.15; }
+    p { margin: 0 0 0.85rem; }
+    .lede { font-size: 1.25rem; max-width: 38rem; }
+
+    .wrap { width: min(1080px, calc(100% - 2.4rem)); margin: 0 auto; }
+    section { padding: 4.5rem 0; }
+    .band { border-top: 1px solid var(--line); }
+
+    nav.top {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: rgba(232, 255, 74, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    nav.top .wrap {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      min-height: 58px;
+      overflow-x: auto;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: lowercase;
+      text-decoration: none;
+      margin-right: auto;
+    }
+    .brand svg { width: 28px; height: 28px; border-radius: 50%; }
+    nav.top a.jump {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      opacity: 0.7;
+      white-space: nowrap;
+    }
+    nav.top a.jump:hover { opacity: 1; color: var(--cobalt); }
+
+    .hero { padding: 4.2rem 0 3rem; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr;
+      gap: 2rem;
+      align-items: end;
+    }
+    .meta-card, .card, .swatch, .issue, .caption, .rule, .lockup {
+      background: var(--paper);
+      border: 1px solid var(--ink);
+    }
+    .meta-card { padding: 1.1rem 1.15rem; }
+    .meta-card p:last-child { margin: 0; }
+    .k { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; display: block; margin-bottom: 0.2rem; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+    .stack { display: grid; gap: 0.8rem; }
+
+    .card { padding: 1.15rem 1.2rem 1.2rem; }
+    .card p:last-child { margin-bottom: 0; }
+
+    .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.7rem; }
+    .swatch { overflow: hidden; }
+    .chip { height: 92px; }
+    .swatch div.body { padding: 0.75rem 0.8rem 0.9rem; }
+    .swatch strong { display: block; font-size: 0.95rem; }
+    .swatch code, code {
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+    .swatch p { margin: 0.25rem 0 0; font-size: 0.86rem; }
+
+    .lockups { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 0.7rem; }
+    .lockup { min-height: 180px; display: flex; align-items: center; justify-content: center; padding: 1.2rem; gap: 0.7rem; }
+    .lockup span.word {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: lowercase;
+      font-size: 1.7rem;
+    }
+    .lockup.bad { align-items: flex-start; flex-direction: column; justify-content: flex-start; }
+    .mark { width: 84px; height: 84px; border-radius: 50%; }
+
+    ul.clean, ol.clean { margin: 0.2rem 0 0; padding-left: 1.1rem; }
+    ul.clean li, ol.clean li { margin: 0.35rem 0; }
+    ul.clean li::marker { color: var(--cobalt); }
+
+    table { width: 100%; border-collapse: collapse; background: var(--paper); }
+    th, td { text-align: left; vertical-align: top; padding: 0.75rem 0.7rem; border-bottom: 1px solid var(--line); }
+    th {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+    td a { color: var(--cobalt); }
+
+    .issue {
+      display: grid;
+      grid-template-columns: 148px 1fr;
+      gap: 0;
+      overflow: hidden;
+    }
+    .issue img { width: 100%; height: 100%; object-fit: cover; min-height: 190px; background: var(--ink); }
+    .issue .body { padding: 0.95rem 1rem 1.05rem; }
+    .issue .title { font-weight: 800; letter-spacing: -0.04em; text-transform: uppercase; font-size: 1.35rem; line-height: 0.95; margin: 0.15rem 0 0.35rem; }
+    .links { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 0.7rem; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .issues { display: grid; gap: 0.8rem; }
+
+    .caption {
+      padding: 1rem 1.1rem 1.1rem;
+      white-space: pre-wrap;
+      font-size: 0.98rem;
+    }
+    .caption header {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.7rem;
+    }
+
+    .say { display: grid; grid-template-columns: 1fr 1fr; }
+    .say div { padding: 1rem 1.1rem 1.15rem; }
+    .say .yes { background: var(--paper); border: 1px solid var(--ink); }
+    .say .no { background: var(--ink); color: var(--on-dark); }
+    .say h3 { margin-bottom: 0.6rem; }
+    .say li { margin: 0.4rem 0; }
+
+    footer.foot {
+      background: var(--magenta);
+      color: var(--on-dark);
+      padding: 2.4rem 0 2.8rem;
+    }
+    footer.foot p { color: var(--orange); max-width: 28rem; }
+    footer.foot a { color: var(--on-dark); }
+
+    .note {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid, .grid-2, .grid-3, .swatches, .lockups, .say, .issue { grid-template-columns: 1fr; }
+      .swatches { grid-template-columns: 1fr 1fr; }
+      h1 { font-size: 3.3rem; }
+      section { padding: 3rem 0; }
+    }
+
+    @media print {
+      @page { size: letter; margin: 0.48in; }
+      html, body {
+        background: #e8ff4a !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      nav.top { display: none; }
+      .hero { padding: 0 0 0.4rem; }
+      section { padding: 0.85rem 0; }
+      .hero-grid { grid-template-columns: 1.35fr 0.8fr !important; align-items: start; }
+      .grid-2, .say { grid-template-columns: 1fr 1fr !important; }
+      .grid-3 { grid-template-columns: 1fr 1fr 1fr !important; }
+      .swatches { grid-template-columns: repeat(4, 1fr) !important; }
+      .lockups { grid-template-columns: 1.1fr 1fr 1fr !important; }
+      .issue { grid-template-columns: 118px 1fr !important; }
+      h1 { font-size: 46px; }
+      h2 { font-size: 28px; break-after: avoid; }
+      .card, .issue, .caption, .swatch, .lockup, .meta-card {
+        break-inside: avoid;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      a { text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top">
+    <div class="wrap">
+      <a class="brand" href="#top">
+        <svg viewBox="0 0 200 200" aria-hidden="true"><rect width="200" height="200" fill="#F2FF3A"/><circle cx="72" cy="78" r="14" fill="#0B0B0B"/><circle cx="128" cy="78" r="14" fill="#0B0B0B"/><path d="M52 118c18 34 78 34 96 0" fill="none" stroke="#0B0B0B" stroke-width="18" stroke-linecap="round"/></svg>
+        fighurs
+      </a>
+      <a class="jump" href="#brand">Brand kit</a>
+      <a class="jump" href="#voice">Voice</a>
+      <a class="jump" href="#channels">Channels</a>
+      <a class="jump" href="#issues">Issues</a>
+      <a class="jump" href="#posting">Posting</a>
+      <a class="jump" href="#captions">Captions</a>
+      <a class="jump" href="#rules">Rules</a>
+      <a class="jump" href="#week">First week</a>
+    </div>
+  </nav>
+
+  <header class="hero wrap" id="top">
+    <p class="eyebrow">Social handbook · October 2026 · for the person running @fighurs</p>
+    <div class="hero-grid">
+      <div>
+        <h1>Give them their flowers.</h1>
+        <p class="lede">FIGHURS is a digital and print magazine. Your job is to make the right people feel seen in public, in the magazine’s voice, and send readers back to the issue.</p>
+      </div>
+      <aside class="meta-card">
+        <p><span class="k">Site</span><a href="https://www.fighurs.com/">fighurs.com</a></p>
+        <p><span class="k">Instagram</span><a href="https://www.instagram.com/fighurs/">@fighurs</a></p>
+        <p><span class="k">YouTube</span><a href="https://www.youtube.com/@fighursonfilm">@fighursonfilm</a></p>
+        <p><span class="k">Line</span>there’s just so much to smile about.</p>
+        <p><span class="k">Close</span>Read. Watch. Collect.</p>
+      </aside>
+    </div>
+  </header>
+
+  <section class="band">
+    <div class="wrap">
+      <p class="eyebrow">What this magazine is</p>
+      <h2>A magazine, not a content page.</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>The sentence</h3>
+          <p>FIGHURS is an independent culture magazine documenting the figures rewriting fashion, internet culture, and creative identity.</p>
+          <p>It is digital and print. It spotlights trailblazing figures in fashion, literature, science, and plenty of other fields — people redefining culture and innovation their way. The magazine is here to tell their stories.</p>
+          <p>The belief under it: it is easier to compete than to appreciate. FIGHURS celebrates creativity, ambition, and impact. Not just recognition. Flowers. Well-deserved flowers, no longer a figment of their imagination. That line is from the editor. Use the feeling. Don’t paraphrase it into a slogan mill.</p>
+        </div>
+        <div class="card">
+          <h3>What you are here to do</h3>
+          <ul class="clean">
+            <li>Post the issues, the film, and the people in them.</li>
+            <li>Sound like the site: short, warm, sure, specific.</li>
+            <li>Send people to a real URL. Every post needs a door.</li>
+            <li>Credit the subject. The magazine is the host, not the star.</li>
+            <li>Draft freely. Publish only after the editor says yes, until you are told a post type is yours to ship.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="brand">
+    <div class="wrap">
+      <p class="eyebrow">Brand kit · name</p>
+      <h2>Spell it FIGHURS.</h2>
+      <div class="grid-3">
+        <article class="card">
+          <h3>The name</h3>
+          <p>FIGHURS. One word. It is “figures,” spelled the magazine’s way. In a headline or a sentence, set it in capitals: FIGHURS.</p>
+          <p>The logo word next to the smile is always lowercase: <strong>fighurs</strong>.</p>
+        </article>
+        <article class="card">
+          <h3>Never</h3>
+          <p>Figures, Figurs, Fighers, Fighur’s, FIGHERS. A YouTube title once says “MAGZINE.” That is a typo. The word is magazine.</p>
+        </article>
+        <article class="card">
+          <h3>How to refer to it</h3>
+          <p>“FIGHURS,” “the magazine,” “the issue.” Don’t write “FIGHURS Magazine™ brand.” Don’t call the people in it “our influencers.” They are the figures. Use their names.</p>
+        </article>
+      </div>
+
+      <p class="eyebrow" style="margin-top:2.2rem">Brand kit · mark</p>
+      <h2>The smile is the logo.</h2>
+      <p class="lede">Official mark, from the logo file. Two dots, one smile, yellow ground, black drawing. Do not redraw it, trace it, or swap in an emoji.</p>
+      <div class="lockups" style="margin-top:1rem">
+        <div class="lockup" style="background:#e8ff4a">
+          <svg class="mark" viewBox="0 0 200 200" role="img" aria-label="FIGHURS smile"><rect width="200" height="200" fill="#F2FF3A"/><circle cx="72" cy="78" r="14" fill="#0B0B0B"/><circle cx="128" cy="78" r="14" fill="#0B0B0B"/><path d="M52 118c18 34 78 34 96 0" fill="none" stroke="#0B0B0B" stroke-width="18" stroke-linecap="round"/></svg>
+          <span class="word">fighurs</span>
+        </div>
+        <div class="lockup" style="background:#e2007c;color:#f7f7f5">
+          <span class="word" style="text-transform:uppercase;letter-spacing:-0.04em;font-weight:800">FIGHURS</span>
+        </div>
+        <div class="lockup" style="background:#2546ff;color:#f7f7f5">
+          <svg class="mark" viewBox="0 0 200 200" aria-hidden="true"><rect width="200" height="200" fill="#F2FF3A"/><circle cx="72" cy="78" r="14" fill="#0B0B0B"/><circle cx="128" cy="78" r="14" fill="#0B0B0B"/><path d="M52 118c18 34 78 34 96 0" fill="none" stroke="#0B0B0B" stroke-width="18" stroke-linecap="round"/></svg>
+          <span class="word">fighurs</span>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:0.8rem">
+        <article class="card">
+          <h3>Use it this way</h3>
+          <ul class="clean">
+            <li>Primary lockup: smile + lowercase <em>fighurs</em>, black type, on lime, paper, or white.</li>
+            <li>On magenta, cobalt, or black: the smile stays yellow with a black face. The word can go white.</li>
+            <li>Clear space: at least half the smile’s width on every side. Don’t crowd it into a corner with stickers.</li>
+            <li>Smallest useful size: about 32px tall on screen. If the eyes disappear, use the word only.</li>
+            <li>Files: <code>public/brand/logo.svg</code> on the site project, and <a href="https://www.fighurs.com/brand/logo.svg">fighurs.com/brand/logo.svg</a>. Favicon is the same smile.</li>
+            <li>A yellow signature mark also lives at <code>public/brand/signature-yellow.svg</code>. That is a signature, not a second logo. Use it rarely, as a sign-off, and only if the editor asks.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Leave it alone</h3>
+          <ul class="clean">
+            <li>No gradients, glows, drop shadows, outlines, or 3D.</li>
+            <li>No recoloring the face. Eyes and smile stay black. The disk stays yellow.</li>
+            <li>No stretching, rotating, or cropping the smile into a semicircle.</li>
+            <li>No extra eyes, hats, tears, or “sad version.”</li>
+            <li>Don’t set the yellow disk straight on the lime background with no edge. Put it on paper, white, or a darker field so it reads.</li>
+            <li>Don’t replace it with 😊 or a different smiley from a sticker pack.</li>
+          </ul>
+        </article>
+      </div>
+
+      <p class="eyebrow" style="margin-top:2.2rem">Brand kit · color</p>
+      <h2>Flat color. Loud on purpose.</h2>
+      <p>The site lives on lime. Magenta is the footer. Cobalt is the active link and the hover. Neon yellow is the smile and the highlight. Black is the ink. These are the colors. Use them as solid fields, not as a rainbow in one frame.</p>
+      <div class="swatches" style="margin-top:1rem">
+        <article class="swatch"><div class="chip" style="background:#e8ff4a;border-bottom:1px solid #0b0b0b"></div><div class="body"><strong>Lime</strong><code>#E8FF4A</code><p>Page color. Default background for graphics.</p></div></article>
+        <article class="swatch"><div class="chip" style="background:#fff200"></div><div class="body"><strong>Neon</strong><code>#FFF200</code><p>Smile disk, selection, small highlights.</p></div></article>
+        <article class="swatch"><div class="chip" style="background:#fffde8;border-bottom:1px solid #0b0b0b"></div><div class="body"><strong>Paper</strong><code>#FFFDE8</code><p>Cards, captions, quiet panels.</p></div></article>
+        <article class="swatch"><div class="chip" style="background:#0b0b0b"></div><div class="body"><strong>Ink</strong><code>#0B0B0B</code><p>Type, rules, the smile’s face. Also full-bleed black frames.</p></div></article>
+        <article class="swatch"><div class="chip" style="background:#e2007c"></div><div class="body"><strong>Magenta</strong><code>#E2007C</code><p>Footer, fashion hits, one strong field per post.</p></div></article>
+        <article class="swatch"><div class="chip" style="background:#2546ff"></div><div class="body"><strong>Cobalt</strong><code>#2546FF</code><p>Active state, links, the other strong field.</p></div></article>
+        <article class="swatch"><div class="chip" style="background:#35e0ff"></div><div class="body"><strong>Cyan</strong><code>#35E0FF</code><p>Issue 003 accent. A spark, not a background habit.</p></div></article>
+        <article class="swatch"><div class="chip" style="background:#ff6a3d"></div><div class="body"><strong>Orange</strong><code>#FF6A3D</code><p>The footer tagline color. Use for one line, not a fill.</p></div></article>
+      </div>
+      <div class="grid-3" style="margin-top:0.7rem">
+        <article class="swatch"><div class="chip" style="background:#e10600"></div><div class="body"><strong>Crimson</strong><code>#E10600</code><p>Issue 002 accent.</p></div></article>
+        <article class="swatch"><div class="chip" style="background:#e8c547"></div><div class="body"><strong>Gold</strong><code>#E8C547</code><p>Issue 005 accent.</p></div></article>
+        <article class="swatch"><div class="chip" style="background:#ff2d8a"></div><div class="body"><strong>Hot pink</strong><code>#FF2D8A</code><p>Issue 001 accent. Close to magenta, not the same.</p></div></article>
+      </div>
+      <p class="note" style="margin-top:0.9rem">On lime, magenta, or cobalt, type is black or near-white <code>#F7F7F5</code>. Orange type is only for the tagline on magenta. Cyan type is for a hover or a single label, and it needs a dark or white field so it stays readable. One photo + one color field is enough. Do not gradient them together.</p>
+
+      <p class="eyebrow" style="margin-top:2.2rem">Brand kit · type</p>
+      <h2>Helvetica, then mono.</h2>
+      <div class="grid-2">
+        <article class="card" style="background:#0b0b0b;color:#f7f7f5">
+          <p class="eyebrow" style="color:#fff200">Display</p>
+          <p style="font-weight:800;letter-spacing:-0.045em;line-height:0.9;text-transform:uppercase;font-size:clamp(2.4rem,6vw,4.2rem);margin:0">Read. Watch. Collect.</p>
+          <p class="note" style="margin-top:0.8rem;color:#f7f7f5">Helvetica Neue, Helvetica, Arial. Weight 800. Tight leading. Uppercase. This is for headlines only.</p>
+        </article>
+        <article class="card">
+          <p class="eyebrow">Labels</p>
+          <p style="font-family:var(--mono);letter-spacing:0.14em;text-transform:uppercase;font-size:0.78rem">Issue 007 · 2026 · Creator feature</p>
+          <p style="font-family:var(--mono);letter-spacing:0.08em;text-transform:uppercase;font-size:0.72rem;margin-top:1rem">View all issues</p>
+          <p class="note">Space Mono, uppercase, tracked out, small. Eyebrows, buttons, issue numbers, nav. If Space Mono isn’t in the tool, IBM Plex Mono or a plain mono is the fallback. Do not set captions in a script, a serif, or a “luxury” Didot.</p>
+        </article>
+      </div>
+      <div class="grid-3" style="margin-top:0.8rem">
+        <article class="card"><h3>Headlines</h3><p>Uppercase Helvetica, crushed together. Short. A headline is a slam: THE ICON. FLOWERS. NYFW SS26.</p></article>
+        <article class="card"><h3>Body</h3><p>Same Helvetica, regular, sentence case. Say the specific thing. Then stop.</p></article>
+        <article class="card"><h3>Buttons and UI</h3><p>Mono, uppercase, a 1px black rule, lots of letterspacing. On the site, a hover fills cobalt, magenta, or cyan. Pick one.</p></article>
+      </div>
+
+      <p class="eyebrow" style="margin-top:2.2rem">Brand kit · picture</p>
+      <h2>The photo is the design.</h2>
+      <div class="grid-2">
+        <article class="card">
+          <p>Use stills from the issues and the site. Full-bleed portraits, runway, studio, collage. Faces stay large. Color is a bar, a full frame behind type, or a caption plate — not a filter on the photo.</p>
+          <p>Feed crop is 4:5. Stories and Reels are 9:16. YouTube thumbs are 16:9. Keep faces and the smile out of the bottom strip, where the app covers them.</p>
+        </article>
+        <article class="card">
+          <p>Do not use stock photos, AI portraits, beige fashion-grid templates, crumpled-paper textures, or neon cyber gradients. A little grain is fine. The site uses a very light grain, around 7%. If you can see the noise before you see the person, it’s too much.</p>
+          <p>If a page credits a photographer, the caption credits them too. If you can’t find the credit, ask before posting.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="voice">
+    <div class="wrap">
+      <p class="eyebrow">Voice</p>
+      <h2>Warm, short, sure.</h2>
+      <p class="lede">The editor’s tone is an ever-smiling host who takes the work seriously and the people in it even more seriously. Smile is the temperature. It is not a bit, and it is not cute for its own sake.</p>
+      <div class="say" style="margin-top:1rem">
+        <div class="yes">
+          <h3>Sounds like FIGHURS</h3>
+          <ul class="clean">
+            <li>Juhm makes nuance look like influence.</li>
+            <li>Issue 006 is up. ICONIKKI, cover to cover.</li>
+            <li>Backstage at NYFW, from the people who actually build the week.</li>
+            <li>Read it. Then watch the interview.</li>
+            <li>there’s just so much to smile about.</li>
+          </ul>
+        </div>
+        <div class="no">
+          <h3>Doesn’t</h3>
+          <ul>
+            <li>We’re so excited to announce our latest drop!! 🚨🔥</li>
+            <li>This queen ATE and left no crumbs.</li>
+            <li>Elevate your mindset with our exclusive editorial.</li>
+            <li>Link in bio bestie, don’t sleep.</li>
+            <li>FIGHURS Magazine™ is thrilled to partner with…</li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid-3" style="margin-top:0.8rem">
+        <article class="card"><h3>Sentences</h3><p>One idea each. Names before adjectives. If a sentence could sit under any creator, rewrite it until it can only be this person.</p></article>
+        <article class="card"><h3>The lowercase line</h3><p>“there’s just so much to smile about.” stays lowercase, with the apostrophe. It is the footer, not a headline. Don’t shout it.</p></article>
+        <article class="card"><h3>Issue language</h3><p>No. 007 or Issue 007. Titles stay as published, in capitals. “Flip” means the digital reader. “Print” means the physical copy.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="channels">
+    <div class="wrap">
+      <p class="eyebrow">Channels</p>
+      <h2>Two accounts. Different jobs.</h2>
+      <div class="grid-2">
+        <article class="card">
+          <p class="eyebrow">Instagram</p>
+          <h3>@fighurs</h3>
+          <p><a href="https://www.instagram.com/fighurs/">instagram.com/fighurs</a></p>
+          <p>The front door. Covers, stills, a line from the issue, film clips, and the occasional story from the archive. This is where new readers should land.</p>
+          <p><span class="k">Bio, if you refresh it</span></p>
+          <p>FIGHURS<br>digital + print magazine<br>flowers for the figures<br>read. watch. collect.<br>fighurs.com</p>
+        </article>
+        <article class="card">
+          <p class="eyebrow">YouTube</p>
+          <h3>@fighursonfilm</h3>
+          <p><a href="https://www.youtube.com/@fighursonfilm">youtube.com/@fighursonfilm</a></p>
+          <p>The interviews and the trailers. Titles on screen: ISSUE 006 — THE ICON, then the name. Description: two lines on who they are, the issue URL, and @fighurs.</p>
+          <p><span class="k">About, if you refresh it</span></p>
+          <p>FIGHURS on film. Interviews and trailers from the magazine.<br>@fighurs · fighurs.com</p>
+        </article>
+      </div>
+      <div class="card" style="margin-top:0.8rem">
+        <h3>Where everything lives on the site</h3>
+        <p><a href="https://www.fighurs.com/">fighurs.com</a> home · <a href="https://www.fighurs.com/magazine">/magazine</a> archive, 7 issues, 2025—2026 · <a href="https://www.fighurs.com/interview">/interview</a> the films · <a href="https://www.fighurs.com/shop">/shop</a> print editions · <a href="https://www.fighurs.com/about">/about</a> the mission reel. Watch that reel before you write anything. It is the voice, out loud.</p>
+        <p class="note">Print buttons on the site currently say “Coming soon.” Digital flip-through is live. Do not tell anyone they can buy a copy today unless the editor confirms checkout is actually open. Prices already on the site, for when it is: Issues 001 and 002 are $15. Issues 003 through 007 are $25.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="issues">
+    <div class="wrap">
+      <p class="eyebrow">Issue bible · use these facts, don’t invent new ones</p>
+      <h2>Seven issues.</h2>
+      <div class="issues">
+        <article class="issue">
+          <img src="https://www.fighurs.com/covers/cover-juhm-new.jpg" alt="Issue 007 cover, Juhm" />
+          <div class="body">
+            <p class="eyebrow">No. 007 · 2026 · $25 · accent #F2FF3A</p>
+            <p class="title">The Minuscule Is In</p>
+            <p>Juhm. Social media creator. Humor, fashion, and cultural commentary collapsed into something distinctly his. The issue is about how nuance becomes influence.</p>
+            <div class="links">
+              <a href="https://www.fighurs.com/magazine/juhm">Flip</a>
+              <a href="https://www.fighurs.com/shop/juhm">Shop</a>
+            </div>
+          </div>
+        </article>
+        <article class="issue">
+          <img src="https://www.fighurs.com/covers/cover-iconikki-clear.jpg" alt="Issue 006 cover, ICONIKKI" />
+          <div class="body">
+            <p class="eyebrow">No. 006 · 2026 · $25 · accent #FF4D9A</p>
+            <p class="title">The Icon</p>
+            <p>ICONIKKI. Fashion-forward creator and stylist. The TikTok presence feels like a live moodboard: quick-fit moments, bold styling, everyday looks that feel editorial. Interview is on YouTube, 15:12. Spell the name ICONIKKI.</p>
+            <div class="links">
+              <a href="https://www.fighurs.com/magazine/iconikki">Flip</a>
+              <a href="https://www.fighurs.com/shop/iconikki">Shop</a>
+              <a href="https://www.youtube.com/watch?v=Ht9nSV1zKCI">Interview</a>
+            </div>
+          </div>
+        </article>
+        <article class="issue">
+          <img src="https://www.fighurs.com/covers/cover-masue-kamara-clear.jpg" alt="Issue 005 cover, Masue Kamara" />
+          <div class="body">
+            <p class="eyebrow">No. 005 · 2025 · $25 · accent #E8C547</p>
+            <p class="title">The Artist</p>
+            <p>Masue Kamara. Multidisciplinary artist. Identity, restraint, emotional presence. A study in self-definition and making the work on one’s own terms. Short film on YouTube, 2:55.</p>
+            <div class="links">
+              <a href="https://www.fighurs.com/magazine/masue-kamara">Flip</a>
+              <a href="https://www.fighurs.com/shop/masue-kamara">Shop</a>
+              <a href="https://www.youtube.com/watch?v=FoYHtz_8aYU">Film</a>
+            </div>
+          </div>
+        </article>
+        <article class="issue">
+          <img src="https://www.fighurs.com/covers/cover-nyfw-ss26-clear.jpg" alt="Issue 004 cover, NYFW SS26" />
+          <div class="body">
+            <p class="eyebrow">No. 004 · 2025 · $25 · special edition</p>
+            <p class="title">NYFW SS26</p>
+            <p>New York Fashion Week, from the side rarely shown: photographers, artists, stylists, and creatives who bring each show to life. Backstage chaos to artistic intimacy. Trailer is 0:50.</p>
+            <div class="links">
+              <a href="https://www.fighurs.com/magazine/nyfw-ss26">Flip</a>
+              <a href="https://www.fighurs.com/shop/nyfw-ss26">Shop</a>
+              <a href="https://www.youtube.com/watch?v=9f2CBot5us0">Trailer</a>
+            </div>
+          </div>
+        </article>
+        <article class="issue">
+          <img src="https://www.fighurs.com/covers/cover-isaiah-collins-clear.jpg" alt="Issue 003 cover, Isaiah Collins" />
+          <div class="body">
+            <p class="eyebrow">No. 003 · August 2025 · $25 · accent #35E0FF</p>
+            <p class="title">The Comedy King</p>
+            <p>Isaiah Collins. Philly-born digital comedian @bubbacollins. Honesty that hits harder than the punchline. Owning a narrative without losing the soul. On first mention you can use both names. After that, Isaiah is enough.</p>
+            <div class="links">
+              <a href="https://www.fighurs.com/magazine/isaiah-collins">Flip</a>
+              <a href="https://www.fighurs.com/shop/isaiah-collins">Shop</a>
+            </div>
+          </div>
+        </article>
+        <article class="issue">
+          <img src="https://www.fighurs.com/covers/cover-eddie-cole-new.jpg" alt="Issue 002 cover, Eddie Cole" />
+          <div class="body">
+            <p class="eyebrow">No. 002 · April 2025 · $15 · accent #E10600</p>
+            <p class="title">The Cole Method</p>
+            <p>Eddie Cole. Self-taught, Minneapolis. Fashion, photography, and storytelling. From styling out of necessity to a community-centered studio. Interview is 8:21.</p>
+            <div class="links">
+              <a href="https://www.fighurs.com/magazine/eddie-cole">Flip</a>
+              <a href="https://www.fighurs.com/shop/eddie-cole">Shop</a>
+              <a href="https://www.youtube.com/watch?v=1268W5yrWro">Interview</a>
+            </div>
+          </div>
+        </article>
+        <article class="issue">
+          <img src="https://www.fighurs.com/covers/cover-makenna-clear.jpg" alt="Issue 001 cover, Makenna Onyambu" />
+          <div class="body">
+            <p class="eyebrow">No. 001 · February 2025 · $15 · accent #FF2D8A</p>
+            <p class="title">The Multifaceted Model</p>
+            <p>Makenna Onyambu. Runway to real life. Confidence, creativity, and the future of fashion. A model and a visionary, and the issue treats the journey as just beginning. Interview is 6:53.</p>
+            <div class="links">
+              <a href="https://www.fighurs.com/magazine/makenna">Flip</a>
+              <a href="https://www.fighurs.com/shop/makenna">Shop</a>
+              <a href="https://www.youtube.com/watch?v=Z4TubxJrWuU">Interview</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="posting">
+    <div class="wrap">
+      <p class="eyebrow">How a week works</p>
+      <h2>Post the magazine. Then get out of the way.</h2>
+      <div class="grid-2">
+        <article class="card">
+          <h3>A steady week, no new issue</h3>
+          <ol class="clean">
+            <li>One archive cover or still, with the issue link.</li>
+            <li>One line that could only belong to that person. Pull it from the published blurb or a page you actually read.</li>
+            <li>Stories: a page-flip, a still, a “read this” sticker to the issue URL. Three frames is plenty.</li>
+            <li>If a film exists for that issue, one clip or a link to the interview. Point to @fighursonfilm.</li>
+          </ol>
+          <p>Three strong posts beat seven empty ones. Skip a day rather than post a quote you made up.</p>
+        </article>
+        <article class="card">
+          <h3>Issue week</h3>
+          <ol class="clean">
+            <li>Cover, full bleed. Title, number, name. Link to the flip reader.</li>
+            <li>A second still the next day. Different crop, one new fact from the issue.</li>
+            <li>Film or trailer the day it goes up, cover frame in the first second, link in the first line of the caption.</li>
+            <li>Stories that day: cover, a favorite spread, the URL, and a tag of the subject if the editor has confirmed the handle.</li>
+            <li>A week later, one “still reading” post. Not a recap thread.</li>
+          </ol>
+        </article>
+      </div>
+      <div class="grid-3" style="margin-top:0.8rem">
+        <article class="card"><h3>Feed</h3><p>Cover. Still plus one sentence. Real pull-quote, editor-approved. Film announcement. “Read it” with the flip link.</p></article>
+        <article class="card"><h3>Stories</h3><p>Lime, magenta, or cobalt frame. Mono label in the corner: NO. 007. Face in the middle. Link sticker to the exact issue, not the homepage, when you can.</p></article>
+        <article class="card"><h3>Reels and film</h3><p>First frame is a face or the cover, with the name. No cold open logo sting. End card: fighurs.com and the smile, two seconds, then out.</p></article>
+      </div>
+      <article class="card" style="margin-top:0.8rem">
+        <h3>Caption shape</h3>
+        <p>Line one is the slam. Specific, short, no hashtags yet. Then one or two sentences on who they are, using the issue’s facts. Last line is the door: the URL, written out. Tag the subject once you know the handle is right. Hashtags, if any: #FIGHURS and the name. Three tags is the ceiling. No tag stacks.</p>
+        <p>Alt text is a sentence a person can use: “Cover of FIGHURS issue 007, a portrait of Juhm.” Not a keyword list.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="captions">
+    <div class="wrap">
+      <p class="eyebrow">Captions you can start from</p>
+      <h2>Written from the site. Still get a yes.</h2>
+      <p>These stay inside published copy. Attach a real still. Add the subject’s handle only after the editor confirms it.</p>
+      <div class="stack" style="margin-top:1rem">
+        <pre class="caption"><header><span>Issue 007 · Juhm</span><span>fighurs.com/magazine/juhm</span></header>THE MINUSCULE IS IN.
+
+Juhm is redefining how personality translates online — humor, fashion, and cultural commentary, collapsed into something distinctly his. Nuance, as influence.
+
+Issue 007 is up.
+fighurs.com/magazine/juhm</pre>
+        <pre class="caption"><header><span>Issue 006 · ICONIKKI</span><span>interview 15:12</span></header>THE ICON.
+
+ICONIKKI styles like a live moodboard. Quick-fit moments, bold choices, everyday looks that feel editorial.
+
+Read the issue. Then watch the interview.
+fighurs.com/magazine/iconikki</pre>
+        <pre class="caption"><header><span>Issue 005 · Masue Kamara</span><span>the artist</span></header>A study in self-definition.
+
+Masue Kamara makes work about identity, restraint, and emotional presence — on one’s own terms.
+
+Issue 005, The Artist.
+fighurs.com/magazine/masue-kamara</pre>
+        <pre class="caption"><header><span>Issue 004 · NYFW SS26</span><span>special edition</span></header>The week, from the people who build it.
+
+Photographers, artists, stylists. Backstage chaos, then the quiet.
+
+NYFW SS26, Issue 004.
+fighurs.com/magazine/nyfw-ss26</pre>
+        <pre class="caption"><header><span>Issue 003 · Isaiah Collins</span><span>@bubbacollins</span></header>Long live The Comedy King.
+
+Philly-born @bubbacollins. The honesty hits harder than the punchline.
+
+Issue 003.
+fighurs.com/magazine/isaiah-collins</pre>
+        <pre class="caption"><header><span>Issue 002 · Eddie Cole</span><span>Minneapolis</span></header>THE COLE METHOD.
+
+Eddie Cole, self-taught in Minneapolis. Fashion, photography, storytelling — and a studio built around the people in it.
+
+Issue 002.
+fighurs.com/magazine/eddie-cole</pre>
+        <pre class="caption"><header><span>Issue 001 · Makenna Onyambu</span><span>the multifaceted model</span></header>From the runway to real life.
+
+Makenna Onyambu is redefining confidence, creativity, and what fashion gets to look like next. The journey is just beginning.
+
+Issue 001.
+fighurs.com/magazine/makenna</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="rules">
+    <div class="wrap">
+      <p class="eyebrow">Comments, DMs, and the yes list</p>
+      <h2>You can be kind without promising the magazine.</h2>
+      <div class="grid-2">
+        <article class="card">
+          <h3>In the comments</h3>
+          <ul class="clean">
+            <li>Reply like a person at the masthead. Short. “Issue 006 is the one — link’s in the bio.” </li>
+            <li>If someone praises the subject, agree and name them. Don’t pivot to “follow us.”</li>
+            <li>If someone wants to be featured: “Features are chosen by the editor. Send the work, and don’t wait on a DM for a yes.” Never promise an issue.</li>
+            <li>Criticism of a subject: don’t debate, don’t pile on, don’t speak for them. Screenshot it and send it to the editor.</li>
+            <li>Anything legal, angry, or about money: don’t reply. Escalate.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Ask before you publish</h3>
+          <ul class="clean">
+            <li>Every post, until the editor clears a category for you to ship alone.</li>
+            <li>Any quote, even a short one.</li>
+            <li>Any date, price, sold-out claim, collab, gift, or “#ad.”</li>
+            <li>Tagging someone for the first time.</li>
+            <li>A photo that is not already in an issue or on fighurs.com.</li>
+            <li>Giveaways, follows-for-follows, comment pods, bought comments.</li>
+          </ul>
+          <p>Passwords stay in a password manager or an official Instagram / YouTube invite. Don’t text them. Don’t put them in a caption draft.</p>
+        </article>
+      </div>
+      <article class="card" style="margin-top:0.8rem">
+        <h3>Hard no</h3>
+        <p>Don’t invent quotes, ages, cities, or credits. Don’t announce print checkout while the button says Coming soon. Don’t use the subject’s image to sell a product they didn’t agree to. Don’t post screenshots of private messages. Don’t argue with the subject in public. Don’t “fix” the logo. Don’t misspell FIGHURS. If you are unsure, the post waits.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="week">
+    <div class="wrap">
+      <p class="eyebrow">First week</p>
+      <h2>Read before you post.</h2>
+      <div class="grid-2">
+        <article class="card">
+          <ol class="clean">
+            <li>Watch the about reel on <a href="https://www.fighurs.com/about">fighurs.com/about</a> all the way through.</li>
+            <li>Flip Issue 007 and Issue 006 in the reader. Read, don’t skim the pictures only.</li>
+            <li>Watch the ICONIKKI interview.</li>
+            <li>Save this page. Open both accounts. Note what’s already up so you don’t repeat last week’s cover.</li>
+            <li>Draft three posts in a doc: one cover, one still, one film link. Use the captions above. Don’t schedule them.</li>
+            <li>Send the drafts with the image, the URL, and who you want to tag. Wait for notes.</li>
+            <li>After the first yes, post it, then check it on a phone. Face visible, name spelled right, link correct.</li>
+          </ol>
+        </article>
+        <article class="card">
+          <h3>Send with this handbook</h3>
+          <ul class="clean">
+            <li>Logo: <code>logo.svg</code> in the site’s <code>public/brand</code> folder.</li>
+            <li>Smile favicon, same folder family.</li>
+            <li>Yellow signature, only if you want it used.</li>
+            <li>Cover files for the seven issues, or permission to pull stills from the live site and the PDFs.</li>
+            <li>Access via Instagram and YouTube’s own invite flow.</li>
+            <li>The handles you are willing to have tagged, written down, so she isn’t guessing.</li>
+          </ul>
+          <p class="note">This handbook was written from fighurs.com and the site’s brand files on October 16, 2026. If checkout goes live, or a new issue ships, update the issue bible before she posts it.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap">
+      <svg width="42" height="42" viewBox="0 0 200 200" aria-hidden="true"><rect width="200" height="200" rx="100" fill="#F2FF3A"/><circle cx="72" cy="78" r="14" fill="#0B0B0B"/><circle cx="128" cy="78" r="14" fill="#0B0B0B"/><path d="M52 118c18 34 78 34 96 0" fill="none" stroke="#0B0B0B" stroke-width="18" stroke-linecap="round"/></svg>
+      <p style="margin-top:0.9rem">there’s just so much to smile about.</p>
+      <p class="note"><a href="https://www.fighurs.com/">fighurs.com</a> · <a href="https://www.instagram.com/fighurs/">@fighurs</a> · <a href="https://www.youtube.com/@fighursonfilm">@fighursonfilm</a></p>
+    </div>
+  </footer>
+</body>
+</html>
